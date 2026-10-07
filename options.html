@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root { color-scheme: light dark; font: message-box; }
+    body { margin: 0; padding: 8px 0; display: grid; gap: 12px; }
+    fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; }
+    legend { padding: 0; margin-bottom: 6px; }
+    input[type="number"] { width: 4em; margin: 0 4px; }
+  </style>
+</head>
+<body>
+  <label>
+    Descartar abas inativas após
+    <input id="minutes" type="number" min="1" step="1">
+    minutos
+  </label>
+  <fieldset>
+    <legend>Ao clicar no ícone da barra:</legend>
+    <label><input type="radio" name="click" value="discard-current"> Descartar esta aba</label>
+    <label><input type="radio" name="click" value="discard-others"> Descartar as outras abas da janela</label>
+  </fieldset>
+  <script src="options.js"></script>
+</body>
+</html>
