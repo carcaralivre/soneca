@@ -3,7 +3,7 @@
 Extensão para Firefox que coloca para dormir as abas que você não usa há alguns minutos.
 
 - Descarta (descarrega da memória) abas inativas após o tempo escolhido — 5 minutos por padrão.
-- Abas tocando som nunca são descartadas automaticamente.
+- Abas fixadas e abas tocando som nunca são descartadas automaticamente.
 - A aba descartada mantém o ícone e ganha 💤 antes do título. Ao clicar nela, ela recarrega normalmente.
 - Usa o descarte nativo do Firefox (`tabs.discard`), o mesmo do "Descarregar aba".
 

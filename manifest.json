@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Soneca",
-  "version": "1.3",
+  "version": "1.4",
   "description": "Coloca para dormir as abas que você não usa há alguns minutos.",
   "browser_specific_settings": {
     "gecko": {

@@ -14,7 +14,7 @@ browser.storage.onChanged.addListener(buildMenu);
 browser.alarms.onAlarm.addListener(async () => {
   const { minutes } = await browser.storage.local.get(DEFAULTS);
   const limit = Date.now() - minutes * 60_000;
-  const tabs = await browser.tabs.query({ active: false, discarded: false, audible: false, status: "complete" });
+  const tabs = await browser.tabs.query({ active: false, discarded: false, audible: false, pinned: false, status: "complete" });
   for (const tab of tabs) {
     if (tab.lastAccessed < limit) discard(tab.id);
   }
@@ -85,7 +85,7 @@ async function discardCurrent(tab) {
 
 async function discardOthers(tab) {
   const others = await otherTabs(tab);
-  await Promise.all(others.filter(t => !t.discarded && !t.audible && t.status === "complete").map(t => discard(t.id)));
+  await Promise.all(others.filter(t => !t.discarded && !t.audible && !t.pinned && t.status === "complete").map(t => discard(t.id)));
 }
 
 function setTitle(tabId, func, args = []) {
@@ -107,7 +107,7 @@ async function discard(tabId, { force = false } = {}) {
 
   const tab = await browser.tabs.get(tabId).catch(() => null);
   if (!tab || tab.discarded || tab.status !== "complete") return;
-  if (tab.active || (!force && tab.audible)) {
+  if (tab.active || (!force && (tab.audible || tab.pinned))) {
     if (prefixed) {
       setTitle(tabId, prefix => {
         if (document.title.startsWith(prefix)) document.title = document.title.slice(prefix.length);
