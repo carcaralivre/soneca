@@ -1,0 +1,21 @@
+{
+  "name": {
+    "pt-BR": "Soneca"
+  },
+  "default_locale": "pt-BR",
+  "summary": {
+    "pt-BR": "Coloca para dormir as abas que você não usa há alguns minutos. Descarrega da memória as abas inativas (5 minutos por padrão) e marca com 💤; ao clicar, a aba volta. Abas fixadas e com som ficam de fora."
+  },
+  "description": {
+    "pt-BR": "Extensão para Firefox que coloca para dormir as abas que você não usa há alguns minutos.\n\n- Descarta (descarrega da memória) abas inativas após o tempo escolhido, 5 minutos por padrão.\n- Abas fixadas e abas tocando som nunca são descartadas automaticamente.\n- A aba descartada mantém o ícone e ganha 💤 antes do título. Ao clicar nela, ela recarrega normalmente.\n- Usa o descarte nativo do Firefox, o mesmo de \"Descarregar aba\".\n\nUso:\n- Clique no ícone da barra: descarta a aba atual ou as outras abas da janela, conforme escolhido no menu.\n- Clique direito no ícone: escolhe o que o clique faz e o tempo de inatividade (1, 5, 10, 15, 30 ou 60 minutos).\n- Um tempo personalizado pode ser definido em about:addons → Soneca → Opções.\n\nNenhum dado sai do navegador."
+  },
+  "categories": [
+    "tabs"
+  ],
+  "homepage": {
+    "pt-BR": "https://github.com/carcaralivre/soneca"
+  },
+  "version": {
+    "license": "MPL-2.0"
+  }
+}
