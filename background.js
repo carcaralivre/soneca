@@ -1,15 +1,15 @@
-const DEFAULTS = { minutes: 5, click: "discard-current" };
 const PRESETS = [1, 5, 10, 15, 30, 60];
 const PREFIX = "💤 ";
 
 function setup() {
   browser.alarms.create("check", { periodInMinutes: 0.5 });
   buildMenu();
-  paintIcon();
 }
 browser.runtime.onInstalled.addListener(setup);
 browser.runtime.onStartup.addListener(setup);
 browser.storage.onChanged.addListener(buildMenu);
+
+// Every half minute: discard the tabs nobody touched for the chosen time.
 
 browser.alarms.onAlarm.addListener(async () => {
   const { minutes } = await browser.storage.local.get(DEFAULTS);
@@ -19,30 +19,6 @@ browser.alarms.onAlarm.addListener(async () => {
     if (tab.lastAccessed < limit) discard(tab.id);
   }
 });
-
-// Toolbar icon: drawn in the theme's own icon color. The default theme declares no
-// colors, so it falls back to theme_icons, which use Firefox Nova's icon fill.
-
-const ICON = color => `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16" fill="none" stroke="${color}" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M13.6 10.1A6 6 0 0 1 5.9 2.4a6 6 0 1 0 7.7 7.7z"/><path d="M9.75 1.75h3.5l-3.5 3.5h3.5"/></svg>`;
-
-async function paintIcon() {
-  const { colors } = await browser.theme.getCurrent();
-  let color = colors?.icons || colors?.toolbar_text || colors?.bookmark_text || colors?.tab_background_text;
-  if (Array.isArray(color)) color = `rgb(${color.join(",")})`;
-  if (!color) return browser.action.setIcon({ path: null });
-
-  const img = new Image();
-  img.src = "data:image/svg+xml," + encodeURIComponent(ICON(color));
-  await img.decode();
-  const imageData = {};
-  for (const size of [16, 32]) {
-    const ctx = new OffscreenCanvas(size, size).getContext("2d");
-    ctx.drawImage(img, 0, 0, size, size);
-    imageData[size] = ctx.getImageData(0, 0, size, size);
-  }
-  browser.action.setIcon({ imageData });
-}
-browser.theme.onUpdated.addListener(paintIcon);
 
 // Toolbar button: left click runs the action chosen in the right-click menu.
 
@@ -106,8 +82,11 @@ async function discard(tabId, { force = false } = {}) {
   } catch {}
 
   const tab = await browser.tabs.get(tabId).catch(() => null);
-  if (!tab || tab.discarded || tab.status !== "complete") return;
-  if (tab.active || (!force && (tab.audible || tab.pinned))) {
+  if (!tab) return;
+  if (tab.discarded) return;
+  // Changed its mind meanwhile (got focus, started playing, got pinned or is
+  // loading): leave it alone and take the prefix back.
+  if (tab.active || tab.status !== "complete" || (!force && (tab.audible || tab.pinned))) {
     if (prefixed) {
       setTitle(tabId, prefix => {
         if (document.title.startsWith(prefix)) document.title = document.title.slice(prefix.length);

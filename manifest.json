@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Soneca",
-  "version": "1.4",
+  "version": "1.6",
   "description": "Coloca para dormir as abas que você não usa há alguns minutos.",
   "browser_specific_settings": {
     "gecko": {
@@ -10,9 +10,9 @@
       "data_collection_permissions": { "required": ["none"] }
     }
   },
-  "permissions": ["tabs", "alarms", "storage", "scripting", "menus", "theme"],
+  "permissions": ["tabs", "alarms", "storage", "scripting", "menus"],
   "host_permissions": ["<all_urls>"],
-  "background": { "scripts": ["background.js"] },
+  "background": { "scripts": ["defaults.js", "icon.js", "background.js"] },
   "action": {
     "default_title": "Soneca",
     "default_icon": "icons/toolbar-dark.svg",

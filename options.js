@@ -1,4 +1,3 @@
-const DEFAULTS = { minutes: 5, click: "discard-current" };
 const input = document.getElementById("minutes");
 const radios = document.querySelectorAll('input[name="click"]');
 

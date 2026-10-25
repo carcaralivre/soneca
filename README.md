@@ -13,15 +13,16 @@ Extensão para Firefox que coloca para dormir as abas que você não usa há alg
 - **Clique direito** no ícone: escolhe o que o clique faz e o tempo de inatividade (1, 5, 10, 15, 30 ou 60 minutos).
 - Um tempo personalizado pode ser definido em `about:addons` → Soneca → Opções.
 
-## Instalação para desenvolvimento
-
-Em `about:debugging#/runtime/this-firefox`, clique em **Carregar extensão temporária…** e escolha o `manifest.json`.
+## Desenvolvimento
 
 ```sh
 npx web-ext lint    # valida
-npx web-ext build   # gera o .zip
-npx web-ext sign --channel=unlisted --api-key=… --api-secret=…   # assina para instalar de vez
+npx web-ext build   # gera o .zip em web-ext-artifacts/
+npx web-ext sign --channel=unlisted --api-key=… --api-secret=…   # assina e gera o .xpi
+npx web-ext sign --channel=listed --api-key=… --api-secret=…     # submete à revisão da loja (addons.mozilla.org)
 ```
+
+Toda alteração precisa de um novo `version` no `manifest.json` antes de assinar.
 
 ## Licença
 
